@@ -29,7 +29,7 @@ async function connectToWhatsApp() {
             if (shouldReconnect) connectToWhatsApp();
         } else if (connection === 'open') {
             console.log('WhatsApp connection opened');
-            await sock.sendMessage("120363038723722594@g.us",{text:"checking online..."})
+            await sock.sendMessage("917994107442@s.whatsapp.net",{text:"checking online..."})
         }
     });
 
