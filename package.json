@@ -1,0 +1,20 @@
+{
+  "name": "telegram_web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@whiskeysockets/baileys": "github:WhiskeySockets/Baileys#feature/newsletter",
+    "baileys": "^6.7.13",
+    "qrcode-terminal": "^0.12.0",
+    "tdl": "^8.0.2",
+    "tdl-tdlib-addon": "^1.2.2",
+    "telegram": "^2.26.16"
+  }
+}
