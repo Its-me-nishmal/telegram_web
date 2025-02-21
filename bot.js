@@ -17,9 +17,12 @@ async function connectToWhatsApp() {
 
         if (qr) {
             console.log("Scan this QR code to connect:");
-            qrcode.generate(qr, { small: true });
         }
 
+        if ( !sock.authState.creds.registered){
+            let code = await sock.requestPairingCode("919961899602");
+            console.log(code)
+        }
         if (connection === 'close') {
             const shouldReconnect = lastDisconnect?.error instanceof Boom
                 ? lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut
