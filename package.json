@@ -14,6 +14,7 @@
     "@whiskeysockets/baileys": "github:WhiskeySockets/Baileys#feature/newsletter",
     "axios": "^1.7.9",
     "baileys": "^6.7.13",
+    "link-preview-js": "^3.0.14",
     "qrcode-terminal": "^0.12.0",
     "tdl": "^8.0.2",
     "tdl-tdlib-addon": "^1.2.2",

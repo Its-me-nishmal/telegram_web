@@ -17,12 +17,9 @@ async function connectToWhatsApp() {
 
         if (qr) {
             console.log("Scan this QR code to connect:");
+            qrcode.generate(qr, { small: true });
         }
 
-        if ( !sock.authState.creds.registered){
-            let code = await sock.requestPairingCode("919961899602");
-            console.log(code)
-        }
         if (connection === 'close') {
             const shouldReconnect = lastDisconnect?.error instanceof Boom
                 ? lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut
@@ -32,7 +29,7 @@ async function connectToWhatsApp() {
             if (shouldReconnect) connectToWhatsApp();
         } else if (connection === 'open') {
             console.log('WhatsApp connection opened');
-            await sock.sendMessage("917994107442@s.whatsapp.net",{text:"checking online..."})
+            await sock.sendMessage("917994107442@s.whatsapp.net",{text:"ok https://amzn.to/3XfrKEf"})
         }
     });
 
