@@ -55,7 +55,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     // Health check with axios every 1 minute
     setInterval(async () => {
         try {
-            const response = await axios.get(`http://localhost:${PORT}/get`);
+            const response = await axios.get(`https://telegram-web-5kjg.onrender.com`);
             console.log("Health check:", response.data);
         } catch (error) {
             console.error("Health check failed:", error.message);
