@@ -1,9 +1,11 @@
 const { Api, TelegramClient } = require("telegram");
 const { StringSession } = require("telegram/sessions");
 const { NewMessage } = require("telegram/events");
-const readline = require("readline"); 
+const readline = require("readline");
 const sockPromise = require("./bot"); // Now returns a promise
 const { isJidNewsletter } = require("baileys");
+const http = require("http");
+const axios = require("axios");
 
 const apiId = 16274989; // Get this from https://my.telegram.org
 const apiHash = "db7e51369e06e03c3c70736939301b44";
@@ -39,6 +41,27 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     console.log("Telegram connected");
 
+    // Start an HTTP server with /get endpoint
+    const PORT = 3000;
+    http.createServer((req, res) => {
+        if (req.url === "/get") {
+            res.writeHead(200, { "Content-Type": "application/json" });
+            return res.end(JSON.stringify({ status: "OK", timestamp: new Date().toISOString() }));
+        }
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        res.end("Server is running\n");
+    }).listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+
+    // Health check with axios every 1 minute
+    setInterval(async () => {
+        try {
+            const response = await axios.get(`http://localhost:${PORT}/get`);
+            console.log("Health check:", response.data);
+        } catch (error) {
+            console.error("Health check failed:", error.message);
+        }
+    }, 60000);
+
     // Wait for WhatsApp socket to initialize
     const sock = await sockPromise;
 
@@ -46,20 +69,20 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         if (event.message) {
             const incomingMessage = event.message;
             const senderId = incomingMessage.senderId.value; // Extract sender ID
-    
+
             // Allowed sender IDs (converted to string)
             const allowedSenderIds = ["-1002043254797", "-1002002305468"];
-    
+
             // Check if sender is in the allowed list
             if (allowedSenderIds.includes(senderId.toString())) {
                 console.log(`Message from ${senderId}: ${incomingMessage.text}`);
-                
+
                 // WhatsApp JID for sending message
                 const jid = "120363315377234178@newsletter";
                 const message = { text: incomingMessage.text };
 
-            await sock.sendMessage(jid, message,{broadcast:true});
-                console.log("Message sent to WhatsApp"); 
+                await sock.sendMessage(jid, message, { broadcast: true });
+                console.log("Message sent to WhatsApp");
             }
         }
     }, new NewMessage({}));
