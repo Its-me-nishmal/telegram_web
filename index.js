@@ -81,7 +81,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
                 const jid = "120363038723722594@g.us";
                 const message = { text: incomingMessage.text };
 
-                await sock.sendMessage(jid, message, { broadcast: true });
+                await sock.sendMessage(jid, message);
                 console.log("Message sent to WhatsApp");
             }
         }
